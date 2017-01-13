@@ -2098,6 +2098,20 @@ declare module index {
             bulletSightRadius(): number;
 
             /**
+             * The maximum distance this type can sense other trees and robots
+             *
+             * @returns {number}
+             */
+            sightRadius(): number;
+
+            /**
+             * The maximum distance this type can sense bullets
+             *
+             * @returns {number}
+             */
+            bulletSightRadius(): number;
+
+            /**
              * @param {flatbuffers.Builder} builder
              */
             static startBodyTypeMetadata(builder: flatbuffers.Builder): void;
@@ -3011,6 +3025,24 @@ declare module index {
              * @returns {Int32Array}
              */
             bytecodesUsedArray(): Int32Array;
+
+            /**
+             * The IDs of trees that were shaken.
+             *
+             * @param {number} index
+             * @returns {number}
+             */
+            shakenIDs(index: number): number;
+
+            /**
+             * @returns {number}
+             */
+            shakenIDsLength(): number;
+
+            /**
+             * @returns {Int32Array}
+             */
+            shakenIDsArray(): Int32Array;
 
             /**
              * @param {flatbuffers.Builder} builder

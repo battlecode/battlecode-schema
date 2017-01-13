@@ -325,7 +325,7 @@ table Round {
     /// have a header:
     /// '[' $TEAM ':' $ROBOTTYPE '#' $ID '@' $ROUND '] '
     /// $TEAM = 'A' | 'B'
-    /// $ROBOTTYPE = 'ARCHON' | 'GARDENER' | 'LUMBERJACK' 
+    /// $ROBOTTYPE = 'ARCHON' | 'GARDENER' | 'LUMBERJACK'
     ///            | 'SOLDIER' | 'TANK' | 'SCOUT' | other names...
     /// $ID = a number
     /// $ROUND = a number
@@ -350,6 +350,9 @@ table Round {
     bytecodeIDs: [int];
     /// The bytecodes used by the player bodies.
     bytecodesUsed: [int];
+
+    /// The IDs of trees that were shaken.
+    shakenIDs: [int];
 }
 
 /// Necessary due to flatbuffers requiring unions to be wrapped in tables.

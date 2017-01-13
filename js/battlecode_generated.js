@@ -2917,7 +2917,7 @@ battlecode.schema.Round.prototype.indicatorLineRGBs = function(obj) {
  * have a header:
  * '[' $TEAM ':' $ROBOTTYPE '#' $ID '@' $ROUND '] '
  * $TEAM = 'A' | 'B'
- * $ROBOTTYPE = 'ARCHON' | 'GARDENER' | 'LUMBERJACK' 
+ * $ROBOTTYPE = 'ARCHON' | 'GARDENER' | 'LUMBERJACK'
  *            | 'SOLDIER' | 'TANK' | 'SCOUT' | other names...
  * $ID = a number
  * $ROUND = a number
@@ -3007,10 +3007,37 @@ battlecode.schema.Round.prototype.bytecodesUsedArray = function() {
 };
 
 /**
+ * The IDs of trees that were shaken.
+ *
+ * @param {number} index
+ * @returns {number}
+ */
+battlecode.schema.Round.prototype.shakenIDs = function(index) {
+  var offset = this.bb.__offset(this.bb_pos, 54);
+  return offset ? this.bb.readInt32(this.bb.__vector(this.bb_pos + offset) + index * 4) : 0;
+};
+
+/**
+ * @returns {number}
+ */
+battlecode.schema.Round.prototype.shakenIDsLength = function() {
+  var offset = this.bb.__offset(this.bb_pos, 54);
+  return offset ? this.bb.__vector_len(this.bb_pos + offset) : 0;
+};
+
+/**
+ * @returns {Int32Array}
+ */
+battlecode.schema.Round.prototype.shakenIDsArray = function() {
+  var offset = this.bb.__offset(this.bb_pos, 54);
+  return offset ? new Int32Array(this.bb.bytes().buffer, this.bb.__vector(this.bb_pos + offset), this.bb.__vector_len(this.bb_pos + offset)) : null;
+};
+
+/**
  * @param {flatbuffers.Builder} builder
  */
 battlecode.schema.Round.startRound = function(builder) {
-  builder.startObject(25);
+  builder.startObject(26);
 };
 
 /**
@@ -3525,6 +3552,35 @@ battlecode.schema.Round.createBytecodesUsedVector = function(builder, data) {
  * @param {number} numElems
  */
 battlecode.schema.Round.startBytecodesUsedVector = function(builder, numElems) {
+  builder.startVector(4, numElems, 4);
+};
+
+/**
+ * @param {flatbuffers.Builder} builder
+ * @param {flatbuffers.Offset} shakenIDsOffset
+ */
+battlecode.schema.Round.addShakenIDs = function(builder, shakenIDsOffset) {
+  builder.addFieldOffset(25, shakenIDsOffset, 0);
+};
+
+/**
+ * @param {flatbuffers.Builder} builder
+ * @param {Array.<number>} data
+ * @returns {flatbuffers.Offset}
+ */
+battlecode.schema.Round.createShakenIDsVector = function(builder, data) {
+  builder.startVector(4, data.length, 4);
+  for (var i = data.length - 1; i >= 0; i--) {
+    builder.addInt32(data[i]);
+  }
+  return builder.endVector();
+};
+
+/**
+ * @param {flatbuffers.Builder} builder
+ * @param {number} numElems
+ */
+battlecode.schema.Round.startShakenIDsVector = function(builder, numElems) {
   builder.startVector(4, numElems, 4);
 };
 
